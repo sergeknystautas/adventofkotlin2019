@@ -1,3 +1,5 @@
+package day7;
+
 import java.io.File;
 import kotlin.system.exitProcess;
 import kotlin.math.max;

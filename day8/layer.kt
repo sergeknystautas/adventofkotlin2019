@@ -1,3 +1,5 @@
+package day8;
+
 import kotlin.system.exitProcess;
 
 fun Loadcodes(opcodes: String): List<Int> {

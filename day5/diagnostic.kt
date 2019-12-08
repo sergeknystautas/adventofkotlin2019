@@ -1,3 +1,5 @@
+package day5;
+
 import java.io.File;
 import kotlin.system.exitProcess;
 
