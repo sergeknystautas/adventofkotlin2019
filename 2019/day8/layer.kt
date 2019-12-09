@@ -1,4 +1,4 @@
-package day8;
+package aoc2019.day8;
 
 import kotlin.system.exitProcess;
 

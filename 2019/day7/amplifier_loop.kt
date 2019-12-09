@@ -1,4 +1,4 @@
-package day7;
+package aoc2019.day7;
 
 import java.io.File;
 import kotlin.system.exitProcess;

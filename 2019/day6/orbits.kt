@@ -1,4 +1,4 @@
-package day6;
+package aoc2019.day6;
 
 import java.io.File;
 

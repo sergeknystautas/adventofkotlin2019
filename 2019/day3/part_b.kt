@@ -1,4 +1,4 @@
-package day3;
+package aoc2019.day3;
 
 import kotlin.math.abs;
 

@@ -1,4 +1,4 @@
-package day4;
+package aoc2019.day4;
 
 // import kotlin.int.rem;
 /*
