@@ -1,3 +1,5 @@
+package day4;
+
 // import kotlin.int.rem;
 /*
  Scans a range between two 6 digit numbers and counting how many combinations meet a set of rules.
