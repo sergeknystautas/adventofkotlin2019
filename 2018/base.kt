@@ -7,9 +7,9 @@ fun Loadcodes(filename: String) : List<String> {
     return File(filename).readLines();
 }
 
-fun Splitcodes(opcodes: String): List<Int> {
+fun Splitcodes(opcodes: String, delim: String): List<Int> {
     // println("you gave ops of $opcodes");
-    var ops: List<Int> = opcodes.split(",").map{ it.trim().toInt() };
+    var ops: List<Int> = opcodes.split(delim).map{ it.trim().toInt() };
     // println("This is ${ops.size} instructions");
     return ops;
 }
