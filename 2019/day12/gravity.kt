@@ -3,6 +3,8 @@ package aoc2019.day12;
 import java.io.File;
 import kotlin.system.exitProcess;
 import kotlin.math.abs;
+import kotlin.math.max;
+import kotlin.math.pow;
 
 fun Loadcodes(filename: String) : List<String> {
     return File(filename).readLines();
@@ -96,7 +98,7 @@ fun main(args: Array<String>) {
         println(moon);
     }
     */
-    for (i in 1..10000000) {
+    for (i in 1..10) {
         for (moon in moons) {
             moon.StepGravity();
         }
@@ -117,4 +119,91 @@ fun main(args: Array<String>) {
     }
     println("Total: $energy");
     // println(lines);
+    // Now find the repeats X
+
+    var matches = mutableListOf<Long>();
+    matches.add(FindLoop(lines, 0).toLong());
+    matches.add(FindLoop(lines, 1).toLong());
+    matches.add(FindLoop(lines, 2).toLong());
+    println("$matches");
+    var primes = Primes(matches.max<Long>()?:1L);
+    println(primes);
+    var divisors = mutableMapOf<Long, Int>();
+    AddDivisors(matches[0], primes, divisors);
+    AddDivisors(matches[1], primes, divisors);
+    AddDivisors(matches[2], primes, divisors);
+    println("Total is ${divisors}");
+    var lcm = 1.0;
+    divisors.forEach{ (divisor, power) -> lcm *= divisor.toDouble().pow(power)};
+    println(lcm.toLong());
+}
+//
+fun AddDivisors(_number: Long, primes: List<Long>, divisors: MutableMap<Long, Int>) {
+    var number = _number;
+    var thisDivisors = mutableMapOf<Long, Int>();
+    // var numDivisors = mutableListOf<Long<();
+    var count = 0;
+    while (count < primes.size) {
+        var prime = primes[count];
+        if (number % prime == 0L) {
+            // println("  ${prime} is a divisor");
+            number /= prime;
+            var divisorCount = thisDivisors.getOrDefault(prime, 0);
+            thisDivisors.put(prime, ++divisorCount);
+        } else {
+            count++;
+        }
+    }
+    thisDivisors.forEach {
+        (prime, divisor) ->
+            var divisorCount = max(divisors.getOrDefault(prime, 0), divisor);
+            divisors.put(prime, divisorCount);
+    }
+    // println("${_number} divides into ${thisDivisors}");
+}
+
+// List primes up to a number
+fun Primes(limit: Long): ArrayList<Long>{
+    var nums: ArrayList<Long> = ArrayList();
+    for(i in 2..limit){
+        var j: Boolean = true
+        for (i2 in 2..(i-1)) {
+            if (i % i2 == 0L) {
+                j=false
+                break
+            }
+        }
+        if (j) {
+            nums.add(i.toLong());
+        }
+    }
+    return nums;
+}
+
+fun FindLoop(lines: List<String>, axis: Int): Int {
+    var moons = mutableListOf<Moon>();
+    for (line in lines) {
+        var positions = Splitcodes(stripChars(line,"<>xyz="), ",");
+        // println(positions);
+        var position = Triple(positions[0], positions[1], positions[2]);
+        moons.add(Moon(position, moons));
+    }
+    var matched = -1;
+    var count = 0;
+    loop@ while (matched == -1) {
+        count++;
+        for (moon in moons) {
+            moon.StepGravity();
+        }
+        for (moon in moons) {
+            moon.StepMove();
+        }
+        for (moon in moons) {
+            if (moon.pos.toList()[axis] != moon.originalPos.toList()[axis] || moon.velocity.toList()[axis] != 0) {
+                continue@loop;
+            }
+        }
+        matched = count;
+    }
+    return matched;
 }
